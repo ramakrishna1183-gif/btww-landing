@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAID Log — Does it actually help projects deliver? — Beyond Theory What Works</title>
+  <meta name="description" content="A practitioner-led experiment on risks, assumptions, issues, and dependencies. Does a RAID log drive proactive risk management or create overhead?" />
+  <style>
+    :root {
+      --black: #1A1A1A; --gold: #C99A14; --gold-lt: #E8B82A;
+      --cream: #FAF8F4; --card: #F0EDE8; --grey: #5A5A5A;
+      --light: #999999; --white: #FFFFFF; --border: #DDD9D0;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background: var(--cream); color: var(--black); line-height: 1.65; font-size: 16px; }
+    a { color: inherit; text-decoration: none; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: var(--black); border-bottom: 2px solid var(--gold); }
+    .nav-inner { max-width: 1080px; margin: 0 auto; padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 62px; }
+    .nav-logo { font-weight: 700; font-size: 0.95rem; color: var(--white); }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
+    .nav-links a { font-size: 0.875rem; font-weight: 500; color: #AAAAAA; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta { background: var(--gold) !important; color: var(--black) !important; font-weight: 700 !important; padding: 8px 18px; border-radius: 6px; }
+    @media (max-width: 640px) {
+      .nav-links li { display: none; }
+      .nav-links li.nav-show { display: block; }
+      .nav-cta { padding: 7px 13px; font-size: 0.82rem !important; }
+    }
+
+    .article-hero { background: var(--black); color: var(--white); padding: 72px 28px 60px; }
+    .article-hero-inner { max-width: 760px; margin: 0 auto; }
+    .article-tag { display: inline-block; border: 1px solid var(--gold); color: var(--gold); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 14px; border-radius: 20px; margin-bottom: 26px; }
+    .article-hero h1 { font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 800; line-height: 1.18; margin-bottom: 20px; }
+    .article-hero .lead { font-size: 1.08rem; color: #AAAAAA; line-height: 1.75; max-width: 640px; }
+    .article-meta { margin-top: 32px; padding-top: 24px; border-top: 1px solid #2A2A2A; display: flex; gap: 28px; flex-wrap: wrap; }
+    .meta-item { font-size: 0.8rem; color: #999999; }
+    .meta-item strong { color: #888888; display: block; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
+
+    .article-body { max-width: 760px; margin: 0 auto; padding: 64px 28px; }
+    .article-body h2 { font-size: 1.45rem; font-weight: 800; margin: 52px 0 16px; line-height: 1.25; }
+    .article-body h2:first-child { margin-top: 0; }
+    .article-body p { font-size: 1.02rem; color: #333333; line-height: 1.8; margin-bottom: 18px; }
+    .article-body ul { margin: 0 0 18px 22px; }
+    .article-body li { font-size: 1rem; color: #444444; line-height: 1.75; margin-bottom: 6px; }
+
+    .callout { background: var(--black); border-left: 3px solid var(--gold); border-radius: 0 10px 10px 0; padding: 24px 28px; margin: 36px 0; }
+    .callout p { font-size: 0.97rem; color: #BBBBBB; line-height: 1.75; margin: 0; }
+    .callout strong { color: var(--gold); }
+
+    .raid-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 28px 0; }
+    .raid-cell { background: var(--black); border: 1px solid #222; border-radius: 12px; padding: 20px 18px; }
+    .raid-letter { font-size: 1.5rem; font-weight: 900; color: var(--gold); line-height: 1; margin-bottom: 8px; }
+    .raid-cell h4 { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+    .raid-cell p { font-size: 0.82rem; color: #AAAAAA; line-height: 1.6; margin: 0; }
+    @media (max-width: 560px) { .raid-grid { grid-template-columns: 1fr; } }
+
+    .survey-box { background: var(--black); border: 1px solid #2A2A2A; border-radius: 16px; padding: 36px 32px; margin: 40px 0; }
+    .survey-box .survey-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    .survey-box h3 { font-size: 1.15rem; font-weight: 800; color: var(--white); margin-bottom: 10px; line-height: 1.35; }
+    .survey-box p { font-size: 0.9rem; color: #AAAAAA; line-height: 1.7; margin-bottom: 24px; }
+    .survey-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .survey-option { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid #2E2E2E; border-radius: 8px; cursor: pointer; transition: border-color 0.2s; }
+    .survey-option:hover { border-color: var(--gold); }
+    .survey-option input { accent-color: var(--gold); width: 16px; height: 16px; flex-shrink: 0; }
+    .survey-option label { font-size: 0.9rem; color: #CCCCCC; cursor: pointer; }
+    .survey-note { font-size: 0.78rem; color: #444444; text-align: center; }
+    .survey-note a { color: var(--gold); text-decoration: underline; }
+
+    .patterns-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; }
+    .pattern-card { background: var(--card); border-radius: 12px; padding: 22px 20px; }
+    .pattern-card h4 { font-size: 0.88rem; font-weight: 700; color: var(--black); margin-bottom: 8px; }
+    .pattern-card p { font-size: 0.84rem; color: var(--grey); line-height: 1.65; margin: 0; }
+    @media (max-width: 560px) { .patterns-grid { grid-template-columns: 1fr; } }
+
+    .fit-section { background: var(--card); border-radius: 14px; padding: 32px 28px; margin: 36px 0; }
+    .fit-section h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 18px; }
+    .fit-list { list-style: none; margin: 0; padding: 0; }
+    .fit-list li { font-size: 0.92rem; color: #444; line-height: 1.6; padding: 10px 0; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 10px; }
+    .fit-list li:last-child { border-bottom: none; padding-bottom: 0; }
+    .fit-icon { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+
+    .interpret-box { background: var(--card); border-radius: 14px; padding: 32px 28px; margin: 40px 0; }
+    .interpret-box h3 { font-size: 1rem; font-weight: 800; margin-bottom: 14px; }
+    .interpret-box p { font-size: 0.9rem; color: var(--grey); line-height: 1.75; margin-bottom: 10px; }
+    .interpret-box p:last-child { margin: 0; }
+
+    .cta-strip { background: var(--gold); border-radius: 14px; padding: 40px 36px; text-align: center; margin: 52px 0 0; }
+    .cta-strip h3 { font-size: 1.25rem; font-weight: 800; color: var(--black); margin-bottom: 10px; }
+    .cta-strip p { font-size: 0.95rem; color: rgba(0,0,0,0.6); margin-bottom: 24px; line-height: 1.65; }
+    .btn-dark { background: var(--black); color: var(--white); font-weight: 700; font-size: 0.95rem; padding: 13px 28px; border-radius: 8px; display: inline-block; transition: background 0.2s; }
+    .btn-dark:hover { background: #2A2A2A; }
+
+    footer { background: #0D0D0D; border-top: 1px solid #1A1A1A; padding: 36px 28px; }
+    .footer-inner { max-width: 1080px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+    .footer-logo { font-weight: 700; color: #666666; font-size: 0.9rem; }
+    .footer-logo span { color: var(--gold); }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.82rem; color: #444444; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold); }
+    .back-link { display: inline-flex; align-items: center; gap: 7px; font-size: 0.85rem; font-weight: 600; color: var(--gold); margin-bottom: 40px; }
+    .back-link:hover { color: var(--gold-lt); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Beyond Theory <span>What Works</span></a>
+    <ul class="nav-links">
+      <li class="nav-show"><a href="/">Home</a></li>
+      <li class="nav-show"><a href="https://chat.beyondtheorywhatworks.com" class="nav-cta">Try free &rarr;</a></li>
+      <li><a href="/#how-it-works">How it works</a></li>
+      <li><a href="/#pricing">Pricing</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="article-hero">
+  <div class="article-hero-inner">
+    <span class="article-tag">Tools Survey</span>
+    <h1>RAID Log &mdash; Does it actually help projects deliver?</h1>
+    <p class="lead">A practitioner-led experiment on risks, assumptions, issues, and dependencies. RAID logs are a project management staple — but do they drive proactive risk management, or mostly create administrative overhead?</p>
+    <div class="article-meta">
+      <div class="meta-item"><strong>Type</strong>Ongoing survey</div>
+      <div class="meta-item"><strong>Domain</strong>Project management &amp; delivery</div>
+      <div class="meta-item"><strong>Status</strong>Collecting responses</div>
+    </div>
+  </div>
+</header>
+
+<main class="article-body">
+
+  <a href="/" class="back-link">&#8592; Back to home</a>
+
+  <h2>What a RAID log is designed to do</h2>
+  <p>A RAID log — tracking Risks, Assumptions, Issues, and Dependencies — is commonly introduced once a project moves into execution. Its purpose is to make threats to time, cost, and quality visible early, before they turn into surprises.</p>
+
+  <div class="raid-grid">
+    <div class="raid-cell">
+      <div class="raid-letter">R</div>
+      <h4>Risks</h4>
+      <p>Things that might happen and would negatively affect the project if they do. Tracked with likelihood and impact.</p>
+    </div>
+    <div class="raid-cell">
+      <div class="raid-letter">A</div>
+      <h4>Assumptions</h4>
+      <p>Things you are treating as true for planning purposes. If an assumption proves wrong, it often becomes a risk or issue.</p>
+    </div>
+    <div class="raid-cell">
+      <div class="raid-letter">I</div>
+      <h4>Issues</h4>
+      <p>Problems that have already materialised and need active management or escalation. Risks that have crystallised.</p>
+    </div>
+    <div class="raid-cell">
+      <div class="raid-letter">D</div>
+      <h4>Dependencies</h4>
+      <p>Things the project relies on from outside its control — other teams, vendors, decisions, or deliverables.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><strong>The question:</strong> The theory is clear. But in practice, RAID logs are often created at project kick-off, added to once or twice, then sit untouched until the project review. Does the format itself create value — or is the value entirely dependent on how actively it&rsquo;s used?</p>
+  </div>
+
+  <h2>Where RAID tends to work best</h2>
+  <p>Based on the framework&rsquo;s design and early practitioner input, RAID is most effective in projects with specific characteristics.</p>
+
+  <div class="fit-section">
+    <h3>Projects where RAID typically delivers value</h3>
+    <ul class="fit-list">
+      <li><span class="fit-icon">&#10003;</span>Fixed timelines and budgets where surprises have a direct cost</li>
+      <li><span class="fit-icon">&#10003;</span>Multiple stakeholders or vendors whose actions affect each other</li>
+      <li><span class="fit-icon">&#10003;</span>Significant interdependencies across teams or workstreams</li>
+      <li><span class="fit-icon">&#10003;</span>Environments where the sponsor wants active visibility of what could go wrong</li>
+      <li><span class="fit-icon">&#10003;</span>Projects with a governance structure that regularly reviews risk status</li>
+    </ul>
+  </div>
+
+  <div class="survey-box">
+    <div class="survey-label">Live Survey</div>
+    <h3>How was RAID used in your project? Did it actually help?</h3>
+    <p>This survey collects real experiences from practitioners who have used RAID in live projects. Not theory — what actually happened.</p>
+    <div class="survey-options">
+      <div class="survey-option">
+        <input type="radio" name="raid" id="d1" />
+        <label for="d1">Yes — it helped the project deliver on time and within budget</label>
+      </div>
+      <div class="survey-option">
+        <input type="radio" name="raid" id="d2" />
+        <label for="d2">Partially — it caught some issues but not the ones that mattered</label>
+      </div>
+      <div class="survey-option">
+        <input type="radio" name="raid" id="d3" />
+        <label for="d3">No — it became administrative overhead with little real impact</label>
+      </div>
+      <div class="survey-option">
+        <input type="radio" name="raid" id="d4" />
+        <label for="d4">We created it but never referenced it during execution</label>
+      </div>
+    </div>
+    <p class="survey-note">Responses are anonymous and voluntary. <a href="#">Share your experience with context &rarr;</a></p>
+  </div>
+
+  <h2>What practitioners are saying (early patterns)</h2>
+  <p>This section evolves as responses come in. Early patterns focus less on the tool itself and more on the conditions that determined whether it delivered value.</p>
+
+  <div class="patterns-grid">
+    <div class="pattern-card">
+      <h4>Review frequency is everything</h4>
+      <p>RAID logs updated weekly in steering meetings had dramatically different outcomes than those updated at project milestones. Frequency drives relevance.</p>
+    </div>
+    <div class="pattern-card">
+      <h4>Psychological safety to raise risk</h4>
+      <p>In cultures where raising risks was seen as negativity or complaining, RAID logs were filled with low-severity items. High-impact risks stayed undocumented.</p>
+    </div>
+    <div class="pattern-card">
+      <h4>Sponsor involvement signals intent</h4>
+      <p>When the sponsor actively engaged with the RAID log — asking about specific risks, escalating issues — the team treated it as a live tool. Without that, it was ceremonial.</p>
+    </div>
+    <div class="pattern-card">
+      <h4>Assumptions are underused</h4>
+      <p>Most practitioners report that the Assumptions column is the least maintained. Yet assumptions that prove wrong are often the root cause of the biggest project surprises.</p>
+    </div>
+  </div>
+
+  <p>Patterns matter more than percentages. A tool that works well in one type of project and fails in another gives you something actionable — a decision about fit, not just an average success rate.</p>
+
+  <div class="interpret-box">
+    <h3>How to interpret this experiment</h3>
+    <p>This is not a scientific study. Responses are voluntary and context-dependent. The intent is to surface patterns, not universal truths.</p>
+    <p>If a RAID log &ldquo;didn&rsquo;t work&rdquo; in your experience — the question is not who maintained it poorly, but what conditions made the format the wrong fit for that environment. We document both what worked and what didn&rsquo;t, with the context that explains it.</p>
+    <p>Survey results are directional and will evolve as more responses come in. Insights are always shared with their limitations stated clearly.</p>
+  </div>
+
+  <div class="cta-strip">
+    <h3>Not sure which risk management approach fits your project?</h3>
+    <p>Context Check asks about your project type, team structure, governance model, and constraints before recommending any framework or tool.</p>
+    <a href="https://chat.beyondtheorywhatworks.com" class="btn-dark">Try the advisor free &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Beyond Theory <span>What Works</span></div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="https://chat.beyondtheorywhatworks.com">Try the advisor</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/#beta-invite">Give feedback</a>
+    </div>
+    <div style="font-size:0.78rem;color:#333333;">beyondtheorywhatworks.com</div>
+  </div>
+</footer>
+
+</body>
+</html>

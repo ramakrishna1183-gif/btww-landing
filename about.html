@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What counts as evidence? How we approach frameworks — Beyond Theory What Works</title>
+  <meta name="description" content="We don't claim academic or statistical certainty. We value repeated practitioner experiences, contextual signals, and honestly stated limitations. This is how Beyond Theory What Works approaches evidence." />
+  <style>
+    :root {
+      --black: #1A1A1A; --gold: #C99A14; --gold-lt: #E8B82A;
+      --cream: #FAF8F4; --card: #F0EDE8; --grey: #5A5A5A;
+      --light: #999999; --white: #FFFFFF; --border: #DDD9D0;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background: var(--cream); color: var(--black); line-height: 1.65; font-size: 16px; }
+    a { color: inherit; text-decoration: none; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: var(--black); border-bottom: 2px solid var(--gold); }
+    .nav-inner { max-width: 1080px; margin: 0 auto; padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 62px; }
+    .nav-logo { font-weight: 700; font-size: 0.95rem; color: var(--white); }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
+    .nav-links a { font-size: 0.875rem; font-weight: 500; color: #AAAAAA; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta { background: var(--gold) !important; color: var(--black) !important; font-weight: 700 !important; padding: 8px 18px; border-radius: 6px; }
+    @media (max-width: 640px) {
+      .nav-links li { display: none; }
+      .nav-links li.nav-show { display: block; }
+      .nav-cta { padding: 7px 13px; font-size: 0.82rem !important; }
+    }
+
+    .article-hero { background: var(--black); color: var(--white); padding: 72px 28px 60px; }
+    .article-hero-inner { max-width: 760px; margin: 0 auto; }
+    .article-tag { display: inline-block; border: 1px solid var(--gold); color: var(--gold); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 14px; border-radius: 20px; margin-bottom: 26px; }
+    .article-hero h1 { font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 800; line-height: 1.18; margin-bottom: 20px; }
+    .article-hero .lead { font-size: 1.08rem; color: #AAAAAA; line-height: 1.75; max-width: 640px; }
+    .article-meta { margin-top: 32px; padding-top: 24px; border-top: 1px solid #2A2A2A; display: flex; gap: 28px; flex-wrap: wrap; }
+    .meta-item { font-size: 0.8rem; color: #999999; }
+    .meta-item strong { color: #888888; display: block; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
+
+    .article-body { max-width: 760px; margin: 0 auto; padding: 64px 28px; }
+    .article-body h2 { font-size: 1.45rem; font-weight: 800; margin: 52px 0 16px; line-height: 1.25; }
+    .article-body h2:first-child { margin-top: 0; }
+    .article-body p { font-size: 1.02rem; color: #333333; line-height: 1.8; margin-bottom: 18px; }
+    .article-body ul { margin: 0 0 18px 22px; }
+    .article-body li { font-size: 1rem; color: #444444; line-height: 1.75; margin-bottom: 6px; }
+
+    .callout { background: var(--black); border-left: 3px solid var(--gold); border-radius: 0 10px 10px 0; padding: 24px 28px; margin: 36px 0; }
+    .callout p { font-size: 0.97rem; color: #BBBBBB; line-height: 1.75; margin: 0; }
+    .callout strong { color: var(--gold); }
+
+    .six-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; }
+    .six-card { border-radius: 12px; padding: 24px 22px; }
+    .six-card.dark { background: var(--black); border: 1px solid #222; }
+    .six-card.light { background: var(--card); border: 1px solid var(--border); }
+    .six-card .num { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .six-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+    .six-card.dark h4 { color: var(--white); }
+    .six-card.light h4 { color: var(--black); }
+    .six-card p { font-size: 0.84rem; line-height: 1.65; margin: 0; }
+    .six-card.dark p { color: #AAAAAA; }
+    .six-card.light p { color: var(--grey); }
+    @media (max-width: 560px) { .six-grid { grid-template-columns: 1fr; } }
+
+    .cycle-diagram { background: var(--black); border-radius: 14px; padding: 36px 28px; margin: 36px 0; text-align: center; }
+    .cycle-diagram p.cycle-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+    .cycle-steps { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; }
+    .cycle-step { background: #111; border: 1px solid #2A2A2A; border-radius: 10px; padding: 16px 20px; width: 160px; }
+    .cycle-step h4 { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .cycle-step p { font-size: 0.76rem; color: #AAAAAA; margin: 0; }
+    .cycle-arrow { color: var(--gold); font-size: 1.2rem; padding: 0 8px; }
+    @media (max-width: 560px) {
+      .cycle-steps { flex-direction: column; }
+      .cycle-arrow { transform: rotate(90deg); }
+    }
+
+    .values-list { list-style: none; margin: 0; padding: 0; }
+    .values-list li { font-size: 1rem; color: #333; line-height: 1.7; padding: 14px 0; border-bottom: 1px solid var(--border); display: flex; gap: 14px; align-items: flex-start; }
+    .values-list li:last-child { border-bottom: none; }
+    .values-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); margin-top: 8px; flex-shrink: 0; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 28px 0; }
+    .two-col-card { background: var(--card); border-radius: 12px; padding: 24px 22px; }
+    .two-col-card h4 { font-size: 0.9rem; font-weight: 800; margin-bottom: 12px; color: var(--black); }
+    .two-col-card ul { list-style: none; padding: 0; margin: 0; }
+    .two-col-card li { font-size: 0.88rem; color: var(--grey); line-height: 1.65; padding: 7px 0; border-bottom: 1px solid var(--border); display: flex; gap: 8px; }
+    .two-col-card li:last-child { border-bottom: none; }
+    .two-col-card li::before { content: "→"; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+    @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+    .cta-strip { background: var(--gold); border-radius: 14px; padding: 40px 36px; text-align: center; margin: 52px 0 0; }
+    .cta-strip h3 { font-size: 1.25rem; font-weight: 800; color: var(--black); margin-bottom: 10px; }
+    .cta-strip p { font-size: 0.95rem; color: rgba(0,0,0,0.6); margin-bottom: 24px; line-height: 1.65; }
+    .btn-dark { background: var(--black); color: var(--white); font-weight: 700; font-size: 0.95rem; padding: 13px 28px; border-radius: 8px; display: inline-block; transition: background 0.2s; }
+    .btn-dark:hover { background: #2A2A2A; }
+
+    footer { background: #0D0D0D; border-top: 1px solid #1A1A1A; padding: 36px 28px; }
+    .footer-inner { max-width: 1080px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+    .footer-logo { font-weight: 700; color: #666666; font-size: 0.9rem; }
+    .footer-logo span { color: var(--gold); }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.82rem; color: #444444; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold); }
+    .back-link { display: inline-flex; align-items: center; gap: 7px; font-size: 0.85rem; font-weight: 600; color: var(--gold); margin-bottom: 40px; }
+    .back-link:hover { color: var(--gold-lt); }
+
+    .closing-line { font-size: 1.15rem; font-weight: 800; color: var(--black); text-align: center; padding: 44px 0 0; border-top: 2px solid var(--gold); margin-top: 52px; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Beyond Theory <span>What Works</span></a>
+    <ul class="nav-links">
+      <li class="nav-show"><a href="/">Home</a></li>
+      <li class="nav-show"><a href="https://chat.beyondtheorywhatworks.com" class="nav-cta">Try free &rarr;</a></li>
+      <li><a href="/#how-it-works">How it works</a></li>
+      <li><a href="/#pricing">Pricing</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="article-hero">
+  <div class="article-hero-inner">
+    <span class="article-tag">About this channel</span>
+    <h1>What counts as evidence? How we approach frameworks.</h1>
+    <p class="lead">This channel does not claim academic or statistical certainty. We value repeated practitioner experiences across roles, industries, and environments. Survey results are directional. Insights are always shared with their limitations stated clearly.</p>
+    <div class="article-meta">
+      <div class="meta-item"><strong>Type</strong>Editorial approach</div>
+      <div class="meta-item"><strong>Focus</strong>Standards and methodology</div>
+    </div>
+  </div>
+</header>
+
+<main class="article-body">
+
+  <a href="/" class="back-link">&#8592; Back to home</a>
+
+  <h2>The problem we don&rsquo;t talk about enough</h2>
+  <p>Most project management and continuous improvement tools don&rsquo;t fail because they are bad. They fail because they are applied without context. Tools created for stable, repeatable work are pushed into complex environments. Frameworks meant to bring clarity turn into overhead.</p>
+  <p>Over time, people stop trusting the tools — not because the tools were wrong, but because their original intent got lost. A methodology becomes a checklist. A checklist becomes a compliance exercise. The compliance exercise produces the opposite of what the methodology was designed to achieve.</p>
+
+  <div class="callout">
+    <p><strong>The aim of this channel</strong> is to learn from real practitioners about context, constraints, and trade-offs. Not to promote any framework — but to understand the conditions under which each one earns its place through practice.</p>
+  </div>
+
+  <h2>How this channel approaches frameworks</h2>
+
+  <div class="cycle-diagram">
+    <p class="cycle-label">The learn–reflect–apply cycle</p>
+    <div class="cycle-steps">
+      <div class="cycle-step">
+        <h4>Learn</h4>
+        <p>Introduce the tool and its original context</p>
+      </div>
+      <div class="cycle-arrow">&#8594;</div>
+      <div class="cycle-step">
+        <h4>Reflect</h4>
+        <p>Collect real practitioner experiences</p>
+      </div>
+      <div class="cycle-arrow">&#8594;</div>
+      <div class="cycle-step">
+        <h4>Apply</h4>
+        <p>Surface patterns about when and why it works</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>What counts as evidence here</h2>
+  <p>This channel does not claim to conduct scientific research. Instead, we value a specific kind of evidence that is rare in management literature: honest practitioner experience, shared with its context intact.</p>
+
+  <ul class="values-list">
+    <li><span class="values-dot"></span>Repeated practitioner experiences across roles, industries, and environments — not single case studies presented as universal truth</li>
+    <li><span class="values-dot"></span>Original intent and recommended context stated clearly, so readers can assess fit for themselves</li>
+    <li><span class="values-dot"></span>Contextual signals: type of work, scale, maturity, and environment are documented alongside every finding</li>
+    <li><span class="values-dot"></span>Survey results are directional, not absolute truths. No finding is presented without its limitations</li>
+    <li><span class="values-dot"></span>Insights are shared with limitations stated clearly — we say what the data can and cannot tell us</li>
+  </ul>
+
+  <h2>How tools and practitioners may be featured</h2>
+  <p>This platform may, over time, highlight tools, companies, SMEs, or independent practitioners. But only under clear conditions.</p>
+
+  <div class="six-grid">
+    <div class="six-card dark">
+      <div class="num">Required</div>
+      <h4>Real-world results</h4>
+      <p>Any featured tool or practitioner must show real results — not just case studies written for marketing purposes.</p>
+    </div>
+    <div class="six-card dark">
+      <div class="num">Required</div>
+      <h4>Context stated openly</h4>
+      <p>The context in which a tool or approach succeeds must be stated clearly and honestly. &ldquo;Works everywhere&rdquo; is not acceptable.</p>
+    </div>
+    <div class="six-card dark">
+      <div class="num">Required</div>
+      <h4>Trade-offs not hidden</h4>
+      <p>Every tool has limitations. Any featured content must acknowledge trade-offs, not just strengths.</p>
+    </div>
+    <div class="six-card dark">
+      <div class="num">Required</div>
+      <h4>Evidence before promotion</h4>
+      <p>If something is featured here, it is because it has earned its place through practice — not because it paid to be here.</p>
+    </div>
+    <div class="six-card light">
+      <div class="num">Not accepted</div>
+      <h4>Paid promotion</h4>
+      <p>This channel does not accept paid promotion. Featuring something here is a judgement about evidence, not a commercial arrangement.</p>
+    </div>
+    <div class="six-card light">
+      <div class="num">Not accepted</div>
+      <h4>Uncontextualised success stories</h4>
+      <p>A success story without context is just marketing. We need to know: what type of work, what constraints, what environment?</p>
+    </div>
+  </div>
+
+  <h2>Who this is for &mdash; and who it is not for</h2>
+
+  <div class="two-col">
+    <div class="two-col-card">
+      <h4>This channel is for you if you&hellip;</h4>
+      <ul>
+        <li>Lead or manage work in projects, operations, or improvement roles</li>
+        <li>Apply frameworks in real environments, not just in exams</li>
+        <li>Care more about outcomes than labels</li>
+        <li>Want to understand <em>when</em> something works, not just <em>that</em> it works</li>
+      </ul>
+    </div>
+    <div class="two-col-card">
+      <h4>It may not be for you if you&hellip;</h4>
+      <ul>
+        <li>Are looking for silver bullets or shortcuts</li>
+        <li>Want one-size-fits-all answers</li>
+        <li>Prefer theory without application or testing</li>
+        <li>Need certainty rather than directional patterns</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>How you can participate</h2>
+  <p>You&rsquo;re not just watching content here. Your input is what makes this channel worth anything. You don&rsquo;t need to have mastered a framework — you just need to be honest about what you observed.</p>
+  <p>Your input shapes what we learn: vote in polls on what tools get tested next, share whether a framework worked or didn&rsquo;t in your context, comment on how it was used and under what conditions, and help us separate what gets promoted from what actually gets results.</p>
+
+  <p class="closing-line">We don&rsquo;t reject theory. We test it &mdash; and keep what works.</p>
+
+  <div class="cta-strip" style="margin-top: 44px;">
+    <h3>Want help deciding which framework fits your situation?</h3>
+    <p>Context Check asks the right questions first. Free to try, no login required.</p>
+    <a href="https://chat.beyondtheorywhatworks.com" class="btn-dark">Try the advisor free &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Beyond Theory <span>What Works</span></div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="https://chat.beyondtheorywhatworks.com">Try the advisor</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/#beta-invite">Give feedback</a>
+    </div>
+    <div style="font-size:0.78rem;color:#333333;">beyondtheorywhatworks.com</div>
+  </div>
+</footer>
+
+</body>
+</html>

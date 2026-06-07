@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI doesn't replace diagnosis. It depends on it. — Beyond Theory What Works</title>
+  <meta name="description" content="Everyone is asking how to build with AI. Almost nobody is asking whether the problem is correctly defined. LSS, PMP, and structured frameworks still matter — more than ever." />
+  <style>
+    :root {
+      --black: #1A1A1A; --gold: #C99A14; --gold-lt: #E8B82A;
+      --cream: #FAF8F4; --card: #F0EDE8; --grey: #5A5A5A;
+      --light: #999999; --white: #FFFFFF; --border: #DDD9D0;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background: var(--cream); color: var(--black); line-height: 1.65; font-size: 16px; }
+    a { color: inherit; text-decoration: none; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: var(--black); border-bottom: 2px solid var(--gold); }
+    .nav-inner { max-width: 1080px; margin: 0 auto; padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 62px; }
+    .nav-logo { font-weight: 700; font-size: 0.95rem; color: var(--white); }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
+    .nav-links a { font-size: 0.875rem; font-weight: 500; color: #AAAAAA; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta { background: var(--gold) !important; color: var(--black) !important; font-weight: 700 !important; padding: 8px 18px; border-radius: 6px; }
+    @media (max-width: 640px) {
+      .nav-links li { display: none; }
+      .nav-links li.nav-show { display: block; }
+      .nav-cta { padding: 7px 13px; font-size: 0.82rem !important; }
+    }
+
+    .article-hero { background: var(--black); color: var(--white); padding: 72px 28px 60px; }
+    .article-hero-inner { max-width: 760px; margin: 0 auto; }
+    .article-tag { display: inline-block; border: 1px solid var(--gold); color: var(--gold); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 14px; border-radius: 20px; margin-bottom: 26px; }
+    .article-hero h1 { font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 800; line-height: 1.18; margin-bottom: 20px; }
+    .article-hero h1 em { font-style: normal; color: var(--gold); }
+    .article-hero .lead { font-size: 1.08rem; color: #AAAAAA; line-height: 1.75; max-width: 640px; }
+    .article-meta { margin-top: 32px; padding-top: 24px; border-top: 1px solid #2A2A2A; display: flex; gap: 28px; flex-wrap: wrap; }
+    .meta-item { font-size: 0.8rem; color: #999999; }
+    .meta-item strong { color: #888888; display: block; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
+
+    .article-body { max-width: 760px; margin: 0 auto; padding: 64px 28px; }
+    .article-body h2 { font-size: 1.45rem; font-weight: 800; margin: 52px 0 16px; line-height: 1.25; }
+    .article-body h2:first-child { margin-top: 0; }
+    .article-body p { font-size: 1.02rem; color: #333333; line-height: 1.8; margin-bottom: 18px; }
+    .article-body ul { margin: 0 0 18px 22px; }
+    .article-body li { font-size: 1rem; color: #444444; line-height: 1.75; margin-bottom: 6px; }
+
+    .pull-quote { background: var(--black); border-radius: 14px; padding: 40px 36px; margin: 44px 0; text-align: center; }
+    .pull-quote blockquote { font-size: clamp(1.2rem, 3vw, 1.75rem); font-weight: 800; color: var(--white); line-height: 1.3; margin-bottom: 14px; }
+    .pull-quote blockquote em { font-style: normal; color: var(--gold); }
+    .pull-quote cite { font-size: 0.8rem; color: #555555; font-style: normal; }
+
+    .callout { background: var(--black); border-left: 3px solid var(--gold); border-radius: 0 10px 10px 0; padding: 24px 28px; margin: 36px 0; }
+    .callout p { font-size: 0.97rem; color: #BBBBBB; line-height: 1.75; margin: 0; }
+    .callout strong { color: var(--gold); }
+
+    /* Two-column contrast grid */
+    .contrast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; }
+    .contrast-card { border-radius: 12px; padding: 26px 22px; }
+    .contrast-card.dark { background: var(--black); }
+    .contrast-card.light { background: var(--card); }
+    .contrast-card .contrast-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
+    .contrast-card.dark .contrast-label { color: var(--gold); }
+    .contrast-card.light .contrast-label { color: var(--grey); }
+    .contrast-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; }
+    .contrast-card.dark h4 { color: var(--white); }
+    .contrast-card.light h4 { color: var(--black); }
+    .contrast-card p { font-size: 0.86rem; line-height: 1.7; margin: 0; }
+    .contrast-card.dark p { color: #AAAAAA; }
+    .contrast-card.light p { color: var(--grey); }
+    @media (max-width: 560px) { .contrast-grid { grid-template-columns: 1fr; } }
+
+    /* Phases list */
+    .phases-list { list-style: none; margin: 28px 0; padding: 0; }
+    .phases-list li { display: flex; gap: 18px; padding: 20px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+    .phases-list li:last-child { border-bottom: none; }
+    .phase-num { font-size: 1.4rem; font-weight: 900; color: var(--gold); line-height: 1; flex-shrink: 0; width: 36px; }
+    .phase-body h4 { font-size: 0.95rem; font-weight: 700; color: var(--black); margin-bottom: 5px; }
+    .phase-body p { font-size: 0.88rem; color: var(--grey); line-height: 1.65; margin: 0; }
+
+    /* Six domains grid */
+    .domains-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 28px 0; }
+    .domain-card { background: var(--black); border-radius: 10px; padding: 20px 18px; }
+    .domain-card .domain-num { font-size: 0.7rem; font-weight: 700; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 7px; }
+    .domain-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+    .domain-card p { font-size: 0.8rem; color: #AAAAAA; line-height: 1.6; margin: 0; }
+    @media (max-width: 640px) { .domains-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 400px) { .domains-grid { grid-template-columns: 1fr; } }
+
+    .interpret-box { background: var(--card); border-radius: 14px; padding: 32px 28px; margin: 40px 0; }
+    .interpret-box h3 { font-size: 1rem; font-weight: 800; margin-bottom: 14px; }
+    .interpret-box p { font-size: 0.9rem; color: var(--grey); line-height: 1.75; margin-bottom: 10px; }
+    .interpret-box p:last-child { margin: 0; }
+
+    .cta-strip { background: var(--gold); border-radius: 14px; padding: 40px 36px; text-align: center; margin: 52px 0 0; }
+    .cta-strip h3 { font-size: 1.25rem; font-weight: 800; color: var(--black); margin-bottom: 10px; }
+    .cta-strip p { font-size: 0.95rem; color: rgba(0,0,0,0.6); margin-bottom: 24px; line-height: 1.65; }
+    .btn-dark { background: var(--black); color: var(--white); font-weight: 700; font-size: 0.95rem; padding: 13px 28px; border-radius: 8px; display: inline-block; transition: background 0.2s; }
+    .btn-dark:hover { background: #2A2A2A; }
+
+    footer { background: #0D0D0D; border-top: 1px solid #1A1A1A; padding: 36px 28px; }
+    .footer-inner { max-width: 1080px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+    .footer-logo { font-weight: 700; color: #666666; font-size: 0.9rem; }
+    .footer-logo span { color: var(--gold); }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.82rem; color: #444444; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold); }
+    .back-link { display: inline-flex; align-items: center; gap: 7px; font-size: 0.85rem; font-weight: 600; color: var(--gold); margin-bottom: 40px; }
+    .back-link:hover { color: var(--gold-lt); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Beyond Theory <span>What Works</span></a>
+    <ul class="nav-links">
+      <li class="nav-show"><a href="/">Home</a></li>
+      <li class="nav-show"><a href="https://chat.beyondtheorywhatworks.com" class="nav-cta">Try free &rarr;</a></li>
+      <li><a href="/#how-it-works">How it works</a></li>
+      <li><a href="/#pricing">Pricing</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="article-hero">
+  <div class="article-hero-inner">
+    <span class="article-tag">Perspective</span>
+    <h1>AI doesn&rsquo;t replace diagnosis. <em>It depends on it.</em></h1>
+    <p class="lead">The conversation has shifted to building AI-first solutions. But almost nobody is asking the more important question first: is the problem correctly defined? That is still where frameworks like LSS and PMP do their most important work — and where skipping them costs the most.</p>
+    <div class="article-meta">
+      <div class="meta-item"><strong>Type</strong>Founding perspective</div>
+      <div class="meta-item"><strong>Focus</strong>AI, frameworks, and problem diagnosis</div>
+      <div class="meta-item"><strong>Status</strong>Ongoing belief</div>
+    </div>
+  </div>
+</header>
+
+<main class="article-body">
+
+  <a href="/" class="back-link">&#8592; Back to home</a>
+
+  <div class="pull-quote">
+    <blockquote>&ldquo;AI executes at speed. It does not tell you <em>whether the problem is worth solving</em> — or whether you&rsquo;ve defined it correctly.&rdquo;</blockquote>
+    <cite>The core tension this channel is built around</cite>
+  </div>
+
+  <h2>What the current conversation is missing</h2>
+  <p>Across forums, LinkedIn, and practitioner communities, the dominant question right now is: <em>how do we build AI into our solutions?</em> Which tools to use. How to automate workflows. How to generate outputs faster. How to embed AI into products and processes.</p>
+  <p>These are legitimate questions. But they are execution questions. They assume the problem is already defined — and defined correctly. In practice, that assumption fails more often than it should.</p>
+  <p>Teams have always been better at executing on a direction than questioning whether the direction is right. AI amplifies that tendency. It makes execution faster, more scalable, and more convincing. Which means a misdiagnosed problem can now scale further, faster, with less friction — and with more confidence — than ever before.</p>
+
+  <div class="callout">
+    <p><strong>The risk is not that AI gives bad answers.</strong> The risk is that it gives confident, well-structured answers to the wrong question. And in organisations under pressure to show progress, well-structured confidence is often enough to move resources.</p>
+  </div>
+
+  <h2>Why diagnosis is still a human and framework problem</h2>
+  <p>Lean Six Sigma has a define phase for a reason. The first step in DMAIC is not to measure, analyse, or improve — it is to correctly state what problem you are actually trying to solve, for whom, under what conditions, and how you will know when it is solved.</p>
+  <p>Project management methodologies spend significant effort on scope definition, stakeholder analysis, and requirements clarification before any delivery work begins. PRINCE2 has a project initiation stage. The PMBoQ dedicates entire knowledge areas to scope and integration management.</p>
+  <p>These were not bureaucratic additions. They were added because experience showed, repeatedly, that work delivered on a misunderstood problem costs more to fix than it cost to deliver.</p>
+
+  <div class="contrast-grid">
+    <div class="contrast-card dark">
+      <div class="contrast-label">What AI does well</div>
+      <h4>Execution at scale</h4>
+      <p>Generating options, synthesising research, drafting outputs, analysing patterns across large data sets, and accelerating delivery once a direction is set.</p>
+    </div>
+    <div class="contrast-card light">
+      <div class="contrast-label">What frameworks still do</div>
+      <h4>Defining the right direction</h4>
+      <p>Structured problem definition, stakeholder alignment, root cause analysis, scope boundary setting, and validating whether the problem is worth solving at all.</p>
+    </div>
+    <div class="contrast-card light">
+      <div class="contrast-label">Where AI struggles alone</div>
+      <h4>Diagnosis without context</h4>
+      <p>AI does not know your organisational politics, your team's real constraints, your stakeholder's unstated concerns, or whether the stated problem is the actual problem.</p>
+    </div>
+    <div class="contrast-card dark">
+      <div class="contrast-label">Where frameworks still earn their keep</div>
+      <h4>The messy front end</h4>
+      <p>Voice of the customer, gemba walks, stakeholder mapping, root cause analysis — these are human and contextual activities that structure the problem before any solution begins.</p>
+    </div>
+  </div>
+
+  <h2>How AI fits into the picture — as part of the solution, not instead of it</h2>
+  <p>This is not an argument against AI. It is an argument for sequencing. When a problem is well-defined, AI is a powerful accelerant. It can help generate solution options faster, model scenarios, synthesise stakeholder inputs, and identify patterns that would take a human analyst far longer to surface.</p>
+  <p>The practitioners who will use AI most effectively are not the ones who start with AI. They are the ones who start with structured diagnosis — and then use AI to move faster once the direction is clear.</p>
+
+  <ul class="phases-list">
+    <li>
+      <div class="phase-num">01</div>
+      <div class="phase-body">
+        <h4>Define the problem correctly first</h4>
+        <p>Use LSS, PMP, or any structured methodology to establish what is actually broken, who it affects, what a successful outcome looks like, and what is in and out of scope. This cannot be delegated to AI — it requires human judgement and stakeholder engagement.</p>
+      </div>
+    </li>
+    <li>
+      <div class="phase-num">02</div>
+      <div class="phase-body">
+        <h4>Use AI to accelerate the analytical work</h4>
+        <p>Once the problem is framed, AI tools can help synthesise research, generate solution options, model trade-offs, and reduce the time between insight and decision. This is where AI earns its value — inside a well-defined problem space.</p>
+      </div>
+    </li>
+    <li>
+      <div class="phase-num">03</div>
+      <div class="phase-body">
+        <h4>Apply execution discipline to deliver the solution</h4>
+        <p>The six domains of execution excellence still apply whether AI is involved or not. Scope, stakeholders, risk, dependencies, measurement, and governance do not disappear because AI is in the delivery mix. They change in form — but not in importance.</p>
+      </div>
+    </li>
+  </ul>
+
+  <h2>Why the six execution domains still matter in an AI-assisted world</h2>
+  <p>Beyond Theory What Works is built around six domains that determine whether any project or improvement initiative actually delivers. These domains did not emerge from theory — they emerged from observing what distinguishes initiatives that land from those that stall or backfire.</p>
+  <p>AI does not eliminate the need for these domains. In some cases it makes them more important, because the speed of AI-assisted delivery can outpace the organisational readiness to absorb change.</p>
+
+  <div class="domains-grid">
+    <div class="domain-card">
+      <div class="domain-num">Domain 01</div>
+      <h4>Problem &amp; scope clarity</h4>
+      <p>Is the problem actually defined? Or has AI been asked to solve something that hasn't been correctly framed yet?</p>
+    </div>
+    <div class="domain-card">
+      <div class="domain-num">Domain 02</div>
+      <h4>Stakeholder alignment</h4>
+      <p>AI-generated outputs still need human buy-in. Stakeholder resistance does not disappear with faster delivery.</p>
+    </div>
+    <div class="domain-card">
+      <div class="domain-num">Domain 03</div>
+      <h4>Risk &amp; dependency management</h4>
+      <p>AI amplifies delivery speed. Unmanaged risks and dependencies amplify at the same rate.</p>
+    </div>
+    <div class="domain-card">
+      <div class="domain-num">Domain 04</div>
+      <h4>Measurement &amp; baseline</h4>
+      <p>AI pattern recognition is only as good as the data and baselines that exist before the work starts.</p>
+    </div>
+    <div class="domain-card">
+      <div class="domain-num">Domain 05</div>
+      <h4>Change readiness</h4>
+      <p>Speed of delivery through AI can outpace the organisation's capacity to absorb and adopt change.</p>
+    </div>
+    <div class="domain-card">
+      <div class="domain-num">Domain 06</div>
+      <h4>Governance &amp; accountability</h4>
+      <p>Who is accountable when AI-assisted decisions go wrong? Governance clarity matters more, not less.</p>
+    </div>
+  </div>
+
+  <h2>What this means for practitioners</h2>
+  <p>If you lead projects, manage improvement programmes, or are responsible for operational change — your value is not in the tools you use. It is in your ability to correctly diagnose what is actually wrong, align people around a shared understanding of the problem, and govern delivery through to a measurable outcome.</p>
+  <p>AI makes the execution of a well-defined plan faster and more powerful. It does not make the diagnosis easier. It does not resolve stakeholder conflict. It does not tell you which problem to solve first when resources are constrained. These remain human, judgement-intensive activities — and they remain the critical path to whether any initiative succeeds.</p>
+
+  <div class="interpret-box">
+    <h3>The practitioners who will thrive are not AI sceptics or AI evangelists</h3>
+    <p>They are the practitioners who understand which part of the problem-solving process they are in at any given moment — and which tools, frameworks, and disciplines are most appropriate for that phase.</p>
+    <p>Diagnosis first. AI inside a well-defined problem space. Execution excellence regardless of which tools are in the mix.</p>
+    <p>That sequence has not changed. Only the tools available in the middle phase have.</p>
+  </div>
+
+  <div class="cta-strip">
+    <h3>Not sure which approach fits your situation?</h3>
+    <p>Context Check asks about your industry, role, project type, and constraints before recommending any framework, method, or approach — including where AI fits.</p>
+    <a href="https://chat.beyondtheorywhatworks.com" class="btn-dark">Try the advisor free &rarr;</a>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Beyond Theory <span>What Works</span></div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="https://chat.beyondtheorywhatworks.com">Try the advisor</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/#beta-invite">Give feedback</a>
+    </div>
+    <div style="font-size:0.78rem;color:#333333;">beyondtheorywhatworks.com</div>
+  </div>
+</footer>
+
+</body>
+</html>
