@@ -6,10 +6,11 @@
 <title>Contact — Beyond Theory What Works</title>
 <meta name="description" content="Contact Beyond Theory What Works and Beyond Theory Guide, and our company registration details.">
 <style>
-  :root { --gold: #D4A017; --bg: #0D0D0D; --panel: #141414; --text: #E8E8E8; --muted: #999999; --line: #2A2A2A; }
+  :root { --gold: #B8860B; --bg: #FAF8F4; --panel: #FFFFFF; --text: #1A1A1A; --muted: #5A5A5A; --line: #DDD9D0; }
+  html[data-theme="dark"] { --gold: #D4A017; --bg: #0D0D0D; --panel: #141414; --text: #E8E8E8; --muted: #999999; --line: #2A2A2A; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--bg); color: var(--text); font-family: Georgia, 'Times New Roman', serif; line-height: 1.7; }
-  header { border-bottom: 1px solid var(--line); padding: 22px 28px; }
+  header { border-bottom: 1px solid var(--line); padding: 22px 28px; display: flex; align-items: center; justify-content: space-between; }
   header a { color: var(--muted); text-decoration: none; font-family: Arial, Helvetica, sans-serif; font-size: 0.85rem; }
   header a span { color: var(--gold); }
   main { max-width: 760px; margin: 0 auto; padding: 56px 28px 90px; }
@@ -21,7 +22,9 @@
   .card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 20px 24px; margin-top: 16px; }
   .details { font-family: Arial, Helvetica, sans-serif; font-size: 0.95rem; line-height: 1.9; }
   .details strong { color: var(--muted); font-weight: 600; }
-  footer { border-top: 1px solid var(--line); padding: 28px; text-align: center; color: #555; font-size: 0.8rem; font-family: Arial, sans-serif; }
+  footer { border-top: 1px solid var(--line); padding: 28px; text-align: center; color: var(--muted); font-size: 0.8rem; font-family: Arial, sans-serif; }
+  .theme-toggle { font: inherit; font-family: Arial, sans-serif; font-size: 0.8rem; font-weight: 600; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; cursor: pointer; transition: color .2s, border-color .2s; }
+  .theme-toggle:hover { color: var(--text); border-color: var(--gold); }
 </style>
   <link rel="canonical" href="https://beyondtheorywhatworks.com/contact.html" />
   <!-- Google Analytics (GA4) -->
@@ -34,7 +37,7 @@
   </script>
 </head>
 <body>
-<header><a href="https://beyondtheorywhatworks.com">Beyond Theory <span>What Works</span></a></header>
+<header><a href="https://beyondtheorywhatworks.com">Beyond Theory <span>What Works</span></a><button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch colour theme">Dark</button></header>
 <main>
 <h1>Contact us</h1>
 <p class="lead">Questions about Beyond Theory Guide, your account, or anything else — we read every message.</p>
@@ -52,5 +55,14 @@
 </p>
 </main>
 <footer>Beyond Theory What Works is a trading name of Cloudpot, registered in the Netherlands (KvK 88275612). © 2026 Cloudpot. All rights reserved. · <a href="/privacy.html" style="color:#555">Privacy</a></footer>
+<script>
+  (function () {
+    var KEY='btww-theme', root=document.documentElement, s=null;
+    try{s=localStorage.getItem(KEY);}catch(e){}
+    if(s==='dark') root.setAttribute('data-theme','dark');
+    function sync(){var d=root.getAttribute('data-theme')==='dark';var b=document.getElementById('themeToggle');if(b)b.textContent=d?'Light':'Dark';}
+    document.addEventListener('DOMContentLoaded',function(){sync();var b=document.getElementById('themeToggle');if(b)b.addEventListener('click',function(){var d=root.getAttribute('data-theme')==='dark';if(d){root.removeAttribute('data-theme');}else{root.setAttribute('data-theme','dark');}try{localStorage.setItem(KEY,d?'light':'dark');}catch(e){}sync();});});
+  })();
+</script>
 </body>
 </html>
